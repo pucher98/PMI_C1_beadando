@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<betegek>
+    <beteg>
+        <nev>Pucher Krisztián</nev>
+        <tajszam>115169900</tajszam>
+        <lakhely>7621, Pécs Rákóczi út 57.</lakhely>
+        <ev>1998</ev>
+        <ho>9</ho>
+        <nap>7</nap>
+        <nem>1</nem>
+        <telefonszam>309853237</telefonszam>
+        <diagnozis>Rosszindulatú heredaganat</diagnozis>
+        <kezeles>-</kezeles>
+        <eloirtCiklusokSzama>2</eloirtCiklusokSzama>
+        <jelenlegiCiklusokSzama>2</jelenlegiCiklusokSzama>
+        <korterem>114</korterem>
+        <gyogyszerek/>
+    </beteg>
+</betegek>
