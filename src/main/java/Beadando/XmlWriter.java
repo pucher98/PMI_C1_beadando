@@ -18,7 +18,7 @@ public class XmlWriter {
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        ArrayList<Beteg> betegek = XmlReader.readBetegekFromXml("src/main/resources/betegek.xml");
+        ArrayList<Sugar> betegek = XmlReader.readBetegekFromXml("src/main/resources/betegek.xml");
 
         int choice = -1;
         while (choice != 0) {
@@ -44,7 +44,7 @@ public class XmlWriter {
         saveBetegekToXml(betegek, "src/main/resources/betegek.xml");
     }
 
-    private static void felvetel(ArrayList<Beteg> betegek){
+    private static void felvetel(ArrayList<Sugar> betegek) {
         int tajszam = tajszamBevitel();
         System.out.println("Írja be a beteg nevét: ");
         String nev = scanner.nextLine();
@@ -59,15 +59,27 @@ public class XmlWriter {
         String diagnozis = scanner.nextLine();
         System.out.println("Írja be a beteg Kezelési módját :");
         String kezeles = scanner.nextLine();
-        int eloirtCiklusokSzama = eloirtCiklusokSzamaBevitel();
-        int jelenlegiCiklusokSzama = jelenlegiCiklusokSzamaBevitel();
         int korterem = korteremBevitel();
         System.out.println("Adja meg a beteg által szedett gyógyszereket: ");
         String gyogyszerek = scanner.nextLine();
-        betegek.add(new Beteg(tajszam, nev, lakhely, ev, ho, nap, nem, telefonszam, diagnozis, kezeles, eloirtCiklusokSzama, jelenlegiCiklusokSzama, korterem, gyogyszerek));
+        Kemoterapia kemoterapia = inputKemoterapia();
+        int eloirtCiklusokSzama = eloirtCiklusokSzamaBevitel();
+        int jelenlegiCiklusokSzama = jelenlegiCiklusokSzamaBevitel();
+        int kapeSugart = kapeSugartBevitel();
+        String sugarKezeles = "nincs";
+        int eloirtSugar = 0;
+        int jelenlegiSugar = 0;
+        if(kapeSugart == 1){
+            System.out.println("Írja be a beteg sugárkezelésének módját: ");
+            sugarKezeles = scanner.nextLine();
+            eloirtSugar = eloirtSugarBevitel();
+            jelenlegiSugar = jelenlegiSugarBevitel();
+        }
+        betegek.add(new Sugar(tajszam, nev, lakhely, ev, ho, nap, nem, telefonszam, diagnozis, kezeles,
+                eloirtCiklusokSzama, jelenlegiCiklusokSzama, korterem, gyogyszerek, kemoterapia, kapeSugart, sugarKezeles, eloirtSugar, jelenlegiSugar));
     }
 
-    private static void modositas(ArrayList<Beteg> betegek){
+    private static void modositas(ArrayList<Sugar> betegek){
         System.out.println("Írja be a módosítani kivánt beteg tajszámát: ");
         int tajszam = scanner.nextInt();
         for (Beteg beteg : betegek) {
@@ -79,19 +91,30 @@ public class XmlWriter {
                 String nev = scanner.nextLine();
                 System.out.println("Írja be a beteg lakhelyét :");
                 String lakhely = scanner.nextLine();
-
                 int nem = nemBevitel();
                 int telefonszam = telefonszamBevitel();
                 System.out.println("Írja be a beteg diagnózisát :");
                 String diagnozis = scanner.nextLine();
                 System.out.println("Írja be a beteg Kezelési módját :");
                 String kezeles = scanner.nextLine();
-                int eloirtCiklusokSzama = eloirtCiklusokSzamaBevitel();
-                int jelenlegiCiklusokSzama = jelenlegiCiklusokSzamaBevitel();
                 int korterem = korteremBevitel();
                 System.out.println("Adja meg a beteg által szedett gyógyszereket: ");
                 String gyogyszerek = scanner.nextLine();
-                betegek.set(betegek.indexOf(beteg), new Beteg(tajszam, nev, lakhely, ev, ho, nap, nem, telefonszam, diagnozis, kezeles, eloirtCiklusokSzama, jelenlegiCiklusokSzama, korterem, gyogyszerek));
+                Kemoterapia kemoterapia = inputKemoterapia();
+                int eloirtCiklusokSzama = eloirtCiklusokSzamaBevitel();
+                int jelenlegiCiklusokSzama = jelenlegiCiklusokSzamaBevitel();
+                int kapeSugart = kapeSugartBevitel();
+                String sugarKezeles = "nincs";
+                int eloirtSugar = 0;
+                int jelenlegiSugar = 0;
+                if(kapeSugart == 1){
+                    System.out.println("Írja be a beteg sugárkezelésének módját: ");
+                    sugarKezeles = scanner.nextLine();
+                    eloirtSugar = eloirtSugarBevitel();
+                    jelenlegiSugar = jelenlegiSugarBevitel();
+                }
+                betegek.set(betegek.indexOf(beteg), new Sugar(tajszam, nev, lakhely, ev, ho, nap, nem, telefonszam, diagnozis,
+                        kezeles, eloirtCiklusokSzama, jelenlegiCiklusokSzama, korterem, gyogyszerek, kemoterapia, kapeSugart, sugarKezeles, eloirtSugar, jelenlegiSugar));
                 System.out.println("Az adatokat sikeresen módosította");
                 return;
             }
@@ -101,7 +124,7 @@ public class XmlWriter {
 
 
 
-    private static void torles(ArrayList<Beteg> betegek) {
+    private static void torles(ArrayList<Sugar> betegek) {
         System.out.println("Írja be a törölni kívánt beteg tajszámát: ");
         int tajszam = scanner.nextInt();
         for(Beteg beteg : betegek){
@@ -127,7 +150,7 @@ public class XmlWriter {
                 tajszam = scanner.nextInt();
                 scanner.nextLine();
                 if (tajszam < 99999999 ||  tajszam > 999999999 ){
-                    System.out.println("Érvénytelen tajszám, kérem 6 számjegyből állót adjon meg!");
+                    System.out.println("Érvénytelen tajszám, kérem 9 számjegyből állót adjon meg!");
                 }
             }catch(InputMismatchException e){
                 System.out.println("Nem valós tajszám");
@@ -135,6 +158,24 @@ public class XmlWriter {
             }
         }
         return tajszam;
+    }
+
+    private  static int kapeSugartBevitel(){
+        int kapeSugart = 0;
+        while (1 > kapeSugart || 2 < kapeSugart) {
+            try {
+                System.out.println("Részesül a beteg sugárkezelésben? Ha igen 1-gyessel válaszoljon, ha nem, 2-essel");
+                kapeSugart = scanner.nextInt();
+                scanner.nextLine();
+                if (kapeSugart < 1 || kapeSugart > 2) {
+                    System.out.println("A választ csak 1-essel és 2-essel adhatja meg.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("A választ csak 1-essel és 2-essel adhatja meg.");
+                scanner.nextLine();
+            }
+        }
+        return kapeSugart;
     }
 
 
@@ -232,14 +273,14 @@ public class XmlWriter {
         int telefonszam = 0;
         while (99999999 > telefonszam || 999999999 < telefonszam) {
             try {
-                System.out.println("Adja meg a beteg telefonszámát a +36:");
+                System.out.println("Adja meg a beteg telefonszámát a +36 után:");
                 telefonszam = scanner.nextInt();
                 scanner.nextLine();
                 if (telefonszam < 99999999 ||telefonszam > 999999999) {
                     System.out.println("A +36 utáni számot adja meg!");
                 }
             } catch (InputMismatchException e) {
-                System.out.println("Adja meg a beteg telefonszámát!: +36");
+                System.out.println("Adja meg a beteg telefonszámát a +36 után: ");
                 scanner.nextLine();
             }
         }
@@ -250,7 +291,7 @@ public class XmlWriter {
         int eloirtCiklusokSzama = -1;
         while (0 > eloirtCiklusokSzama || 100 < eloirtCiklusokSzama) {
             try {
-                System.out.println("Adja meg a betegnek előírt kemoterápiás ciklusok számát");
+                System.out.println("Adja meg a betegnek előírt kemoterápiás ciklusok számát: ");
                 eloirtCiklusokSzama = scanner.nextInt();
                 scanner.nextLine();
                 if (eloirtCiklusokSzama < 0 || eloirtCiklusokSzama > 100) {
@@ -263,6 +304,7 @@ public class XmlWriter {
         }
         return eloirtCiklusokSzama;
     }
+
 
     private  static int jelenlegiCiklusokSzamaBevitel(){
         int  jelenlegiCiklusokSzama = -1;
@@ -282,17 +324,75 @@ public class XmlWriter {
         return  jelenlegiCiklusokSzama;
     }
 
-    private static void listazas(ArrayList<Beteg> betegek) {
-        System.out.println(betegek);
+    private  static int eloirtSugarBevitel(){
+        int eloirtSugar = -1;
+        while (0 > eloirtSugar || 100 < eloirtSugar) {
+            try {
+                System.out.println("Adja meg a betegnek előírt sugár kezeléseinek számát: ");
+                eloirtSugar = scanner.nextInt();
+                scanner.nextLine();
+                if (eloirtSugar < 0 || eloirtSugar > 100) {
+                    System.out.println("A sugárkezelések számát 0 és 100 között tudja megadni! ");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("A sugárkezelések számát 0 és 100 között tudja megadni! ");
+                scanner.nextLine();
+            }
+        }
+        return eloirtSugar;
     }
 
-    public static void saveBetegekToXml(ArrayList<Beteg> betegek, String filepath){
+    private  static int jelenlegiSugarBevitel(){
+        int  jelenlegiSugar = -1;
+        while (0 >  jelenlegiSugar || 100 <  jelenlegiSugar) {
+            try {
+                System.out.println("Adja meg a beteg teljesített sugárkezeléseinek számát: ");
+                jelenlegiSugar = scanner.nextInt();
+                scanner.nextLine();
+                if ( jelenlegiSugar < 0 ||  jelenlegiSugar > 100) {
+                    System.out.println("A teljesített sugárkezeléseinek számát 0 és 100 között tudja megadni! ");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("A teljesített sugárkezeléseinek számát 0 és 100 között tudja megadni! ");
+                scanner.nextLine();
+            }
+        }
+        return  jelenlegiSugar;
+    }
+
+    private static Kemoterapia inputKemoterapia(){
+        Kemoterapia kemoterapia = Kemoterapia.ADJUVÁNS;
+        String kemoterapiaString = "";
+        while (kemoterapiaString.isEmpty()){
+            try{
+            System.out.println("Írja be a kemoterápia fajtáját: ");
+            kemoterapiaString = scanner.nextLine();
+            kemoterapia = Kemoterapia.valueOf(kemoterapiaString.toUpperCase());
+                System.out.println("Leírás: " + kemoterapia.getKemoterapia());
+        }catch (IllegalArgumentException e){
+                System.out.println("Nincs ilyen fajta kemoterápiás kezelés");
+                kemoterapiaString = "";
+            }
+        }
+        return kemoterapia;
+    }
+
+    /*private static void listazas(ArrayList<Beteg> betegek) {
+        System.out.println(betegek);
+    }*/
+    public static <T> void listazas(ArrayList<T> list) {
+        for (T element : list) {
+            System.out.println(element.toString());
+        }
+    }
+
+    public static void saveBetegekToXml(ArrayList<Sugar> betegek, String filepath){
         try {
             Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
             Element rootElement = document.createElement("betegek");
             document.appendChild(rootElement);
 
-            for (Beteg beteg : betegek) {
+            for (Sugar beteg : betegek) {
                 Element betegElement = document.createElement("beteg");
                 rootElement.appendChild(betegElement);
                 createChildElement(document, betegElement, "nev", beteg.getNev());
@@ -309,6 +409,11 @@ public class XmlWriter {
                 createChildElement(document, betegElement, "jelenlegiCiklusokSzama", String.valueOf(beteg.getJelenlegiCiklusokSzama()));
                 createChildElement(document, betegElement, "korterem", String.valueOf(beteg.getKorterem()));
                 createChildElement(document, betegElement, "gyogyszerek", beteg.getGyogyszerek());
+                createChildElement(document, betegElement, "kemoterapia", beteg.getKemoterapia().toString());
+                createChildElement(document, betegElement, "kapeSugart", String.valueOf(beteg.getKapeSugart()));
+                createChildElement(document, betegElement, "sugarKezeles", beteg.getSugarKezeles());
+                createChildElement(document, betegElement, "eloirtSugar", String.valueOf(beteg.getEloirtSugar()));
+                createChildElement(document, betegElement, "jelenlegiSugar", String.valueOf(beteg.getJelenlegiSugar()));
             }
 
             TransformerFactory transformerFactory = TransformerFactory.newInstance();

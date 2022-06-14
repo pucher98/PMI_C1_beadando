@@ -1,2 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-
+<betegek>
+    <beteg>
+        <nev>Kovacs József</nev>
+        <tajszam>115169900</tajszam>
+        <lakhely>Pécs Rákóczi út 30</lakhely>
+        <ev>2000</ev>
+        <ho>10</ho>
+        <nap>12</nap>
+        <nem>1</nem>
+        <telefonszam>309853237</telefonszam>
+        <diagnozis>Daganat</diagnozis>
+        <kezeles>Kemoterápia és Sugárkezelés</kezeles>
+        <eloirtCiklusokSzama>1</eloirtCiklusokSzama>
+        <jelenlegiCiklusokSzama>2</jelenlegiCiklusokSzama>
+        <korterem>101</korterem>
+        <gyogyszerek>Rivo</gyogyszerek>
+        <kemoterapia>KURATÍV</kemoterapia>
+        <kapeSugart>1</kapeSugart>
+        <sugarKezeles>belső</sugarKezeles>
+        <eloirtSugar>1</eloirtSugar>
+        <jelenlegiSugar>2</jelenlegiSugar>
+    </beteg>
+</betegek>

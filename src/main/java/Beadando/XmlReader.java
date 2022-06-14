@@ -14,14 +14,14 @@ import java.util.ArrayList;
 
 public class XmlReader {
     public static void main(String[] args){
-        ArrayList<Beteg> betegek = XmlReader.readBetegekFromXml("src/main/resources/betegek.xml");
+        ArrayList<Sugar> betegek = XmlReader.readBetegekFromXml("src/main/resources/betegek.xml");
         System.out.println(betegek.size());
         System.out.println(betegek);
     }
 
 
-    public static ArrayList<Beteg> readBetegekFromXml(String filepath)  {
-        ArrayList<Beteg> betegek = new ArrayList<>();
+    public static ArrayList<Sugar> readBetegekFromXml(String filepath)  {
+        ArrayList<Sugar> betegek = new ArrayList<>();
         try {
             DocumentBuilderFactory documentBuilderFactory =
                     DocumentBuilderFactory.newInstance();
@@ -39,7 +39,7 @@ public class XmlReader {
                     numberOfElementNodes++;
                     NodeList childNodesOfBetegTag = node.getChildNodes();
                     String nev = "", tajszam = "", lakhely = "", ev = "", ho = "", nap ="", nem = "", telefonszam = "", diagnozis = "",
-                            kezeles = "", eloirtCiklusokSzama = "", jelenlegiCiklusokSzama = "", korterem = "", gyogyszerek = "";
+                            kezeles = "", eloirtCiklusokSzama = "", jelenlegiCiklusokSzama = "", korterem = "", gyogyszerek = "", kemoterapia = "", kapeSugart= "", sugarKezeles="", eloirtSugar="", jelenlegiSugar="";
                     for (int j = 0; j < childNodesOfBetegTag.getLength(); j++) {
                         if (childNodesOfBetegTag.item(j).getNodeType() == Node.ELEMENT_NODE) {
                             switch (childNodesOfBetegTag.item(j).getNodeName()) {
@@ -56,12 +56,18 @@ public class XmlReader {
                                 case "eloirtCiklusokSzama" -> eloirtCiklusokSzama = childNodesOfBetegTag.item(j).getTextContent();
                                 case "jelenlegiCiklusokSzama" -> jelenlegiCiklusokSzama = childNodesOfBetegTag.item(j).getTextContent();
                                 case "korterem" -> korterem = childNodesOfBetegTag.item(j).getTextContent();
-                                case "gyogyszerek" -> kezeles = childNodesOfBetegTag.item(j).getTextContent();
+                                case "gyogyszerek" -> gyogyszerek = childNodesOfBetegTag.item(j).getTextContent();
+                                case "kemoterapia" -> kemoterapia = childNodesOfBetegTag.item(j).getTextContent();
+                                case "kapeSugart" -> kapeSugart = childNodesOfBetegTag.item(j).getTextContent();
+                                case "sugarKezeles" -> sugarKezeles = childNodesOfBetegTag.item(j).getTextContent();
+                                case "eloirtSugar" -> eloirtSugar = childNodesOfBetegTag.item(j).getTextContent();
+                                case "jelenlegiSugar" -> jelenlegiSugar = childNodesOfBetegTag.item(j).getTextContent();
                             }
                         }
                     }
-                    betegek.add(new Beteg(Integer.parseInt(tajszam), nev, lakhely,Integer.parseInt(ev), Integer.parseInt(ho), Integer.parseInt(nap), Integer.parseInt(nem), Integer.parseInt(telefonszam),
-                            diagnozis, kezeles, Integer.parseInt(eloirtCiklusokSzama), Integer.parseInt(jelenlegiCiklusokSzama), Integer.parseInt(korterem), gyogyszerek));
+                    betegek.add(new Sugar(Integer.parseInt(tajszam), nev, lakhely,Integer.parseInt(ev), Integer.parseInt(ho), Integer.parseInt(nap), Integer.parseInt(nem), Integer.parseInt(telefonszam),
+                            diagnozis, kezeles, Integer.parseInt(eloirtCiklusokSzama), Integer.parseInt(jelenlegiCiklusokSzama), Integer.parseInt(korterem), gyogyszerek,Kemoterapia.valueOf(kemoterapia),
+                            Integer.parseInt(kapeSugart), sugarKezeles, Integer.parseInt(eloirtSugar),Integer.parseInt(jelenlegiSugar) ));
                 }
             }
         }catch  (Exception e){

@@ -15,11 +15,14 @@ public class Beteg {
     private int jelenlegiCiklusokSzama;
     private int korterem;
     private String gyogyszerek;
+    private Kemoterapia kemoterapia;
+    private int kapeSugart;
 
 
 
     //Konstruktor
-    public Beteg(int tajszam, String nev, String lakhely, int ev, int ho, int nap, int nem, int telefonszam, String diagnozis, String kezeles, int eloirtCiklusokSzama, int jelenlegiCiklusokSzama, int korterem, String gyogyszerek) {
+    public Beteg(int tajszam, String nev, String lakhely, int ev, int ho, int nap, int nem, int telefonszam, String diagnozis, String kezeles, int eloirtCiklusokSzama,
+                 int jelenlegiCiklusokSzama, int korterem, String gyogyszerek, Kemoterapia kemoterapia, int kapeSugart){
         this.tajszam = tajszam;
         this.nev = nev;
         this.lakhely = lakhely;
@@ -34,7 +37,10 @@ public class Beteg {
         this.jelenlegiCiklusokSzama = jelenlegiCiklusokSzama;
         this.korterem = korterem;
         this.gyogyszerek = gyogyszerek;
+        this.kemoterapia = kemoterapia;
+        this.kapeSugart = kapeSugart;
     }
+
 
     // Getter, Setter
 
@@ -150,9 +156,43 @@ public class Beteg {
     public void setKorterem(int korterem) {
         this.korterem = korterem;
     }
-    @Override
+
+    public Kemoterapia getKemoterapia() {
+        return kemoterapia;
+    }
+
+    public int getKapeSugart() {
+        return kapeSugart;
+    }
+
+    public void setKapeSugart(int kapeSugart) {
+        this.kapeSugart = kapeSugart;
+    }
+
+    /*@Override
     public String toString() {
         return nev + '(' + tajszam + ')';
+    }*/
+
+    @Override
+    public String toString() {
+        return "Beteg[" +
+                "Tajszám:" + tajszam +
+                ", Név:" + nev +
+                ", lakhely:" + lakhely +
+                ", Születési év:" + ev +
+                ", Születési hónap:" + ho +
+                ", Születési nap:" + nap +
+                ", Beteg neme:" + nem +
+                ", Telefonszám:" + telefonszam +
+                ", Diagnózis:" + diagnozis +
+                ", Kezelés:" + kezeles +
+                ", Előírt ciklusainak száma:" + eloirtCiklusokSzama +
+                ", Teljesített ciklusok száma:" + jelenlegiCiklusokSzama +
+                ", Kórterem:" + korterem +
+                ", Beteg által szedett gyógyszerek:" + gyogyszerek +
+                ", Kemotárpia fajtája:" + kemoterapia +
+                ", Sugárkezelés:" + kapeSugart + "]";
     }
 }
 
